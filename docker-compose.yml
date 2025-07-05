@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  angular-app:
+    container_name: mindata-frontend-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    restart: unless-stopped
