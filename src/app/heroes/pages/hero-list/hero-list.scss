@@ -1,0 +1,23 @@
+.search-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.hero-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-card {
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+}
