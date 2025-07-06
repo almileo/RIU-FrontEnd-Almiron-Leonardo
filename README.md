@@ -1,59 +1,130 @@
-# RIUFrontendAlmironLeonardo
+# RIU Frontend Almiron Leonardo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+Frontend desarrollado con Angular 20, usando arquitectura moderna con:
 
-## Development server
+* Standalone components
+* Signals (`@angular/core`)
+* Reactive Forms
+* Zoneless (opcional)
+* Angular Material
+* Interceptores HTTP
+* Docker (desarrollo y producción)
 
-To start a local development server, run:
+---
+
+## 🚀 Comenzar
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Accedé a: [http://localhost:4200](http://localhost:4200)
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📁 Estructura del proyecto
 
-```bash
-ng generate component component-name
+```
+src/
+├── app/
+│   ├── core/
+│   │   ├── components/loading/         # LoadingComponent standalone
+│   │   ├── interceptors/loading.ts     # HTTP interceptor para mostrar loading
+│   │   └── services/loading.ts         # Servicio compartido de loading
+│   ├── heroes/
+│   │   ├── models/hero.model.ts        # Modelo de héroe
+│   │   ├── pages/
+│   │   │   ├── hero-form/              # Componente de alta/edición de héroes
+│   │   │   └── hero-list/              # Componente de listado de héroes
+│   │   └── services/hero.ts            # Servicio principal de héroes (con signals)
+│   ├── shared/
+│   │   └── directives/uppercase.ts     # Directiva standalone para forzar mayúsculas
+│   ├── app.config.ts                   # Configuración de aplicación (zoneless opcional)
+│   ├── app.routes.ts                   # Definición de rutas
+│   └── app.ts / app.html / app.scss    # Root component
+├── index.html
+├── main.ts
+├── styles.scss
+└── test.ts                             # Configuración global de tests
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+## 🧩 Zoneless opcional
+
+```ts
+// app.config.ts
+const ZONELESS_ENABLED = false;
+...(ZONELESS_ENABLED ? [provideZonelessChangeDetection()] : [])
 ```
 
-## Building
+> Comentá esa línea si vas a usar Zone.js para tests o debugging tradicional.
 
-To build the project run:
+---
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## ✅ Test unitarios
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Ejecutar solo un archivo de test:
 
 ```bash
-ng e2e
+ng test --include src/app/heroes/pages/hero-form/hero-form.spec.ts
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 🧪 HeroFormComponent
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Formulario reactivo y standalone con:
+
+* Validaciones reactivas (`FormBuilder`)
+* Modo edición / creación (según ID en la ruta)
+* Simulación de delay (`RxJS delay(1000)`)
+* Testeado con `fakeAsync`, `tick()`, `jasmine.createSpyObj`
+
+---
+
+## 🐳 Docker (Dev y Producción)
+
+Archivos disponibles:
+
+* `Dockerfile`: imagen de producción (nginx)
+* `Dockerfile.dev`: para entorno de desarrollo
+* `docker-compose.yml`: despliegue principal
+* `docker-compose.dev.yml`: entorno dev (con bind-mount)
+* `nginx.conf`: configuración personalizada de nginx
+
+### ▶️ Desarrollo
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+### 🚀 Producción
+
+```bash
+docker compose up --build
+```
+
+Luego acceder a: [http://localhost](http://localhost)
+
+---
+
+## 🔨 Build
+
+```bash
+ng build
+```
+
+Genera el proyecto en `dist/` optimizado para producción.
+
+---
+
+## ✍️ Autor
+
+**Leonardo G. Almirón**
+Tucumán, Argentina
