@@ -80,6 +80,18 @@ ng test --include src/app/heroes/pages/hero-form/hero-form.spec.ts
 
 ---
 
+## 📊 Cobertura de tests
+
+Para ver la cobertura del proyecto:
+
+```bash
+ng test --code-coverage
+```
+
+El resultado se genera en `coverage/index.html`. Abrilo en el navegador para inspeccionar qué archivos y líneas están cubiertos o no.
+
+---
+
 ## 🧪 HeroFormComponent
 
 Formulario reactivo y standalone con:
