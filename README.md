@@ -9,6 +9,7 @@ Frontend desarrollado con Angular 20, usando arquitectura moderna con:
 * Angular Material
 * Interceptores HTTP
 * Docker (desarrollo y producción)
+* Deploy automático con Netlify
 
 ---
 
@@ -20,6 +21,8 @@ ng serve
 ```
 
 Accedé a: [http://localhost:4200](http://localhost:4200)
+
+Versión en producción: [https://riufrontendalmironleonardo.netlify.app/heroes](https://riufrontendalmironleonardo.netlify.app/heroes)
 
 ---
 
@@ -121,6 +124,25 @@ ng build
 ```
 
 Genera el proyecto en `dist/` optimizado para producción.
+
+---
+
+## 🌐 Deploy en Netlify
+
+1. Crear cuenta en [Netlify](https://netlify.com) si no tenés una.
+2. Hacer `ng build` para generar la carpeta `dist/`
+3. Subir el contenido de `dist/RIUFrontendAlmironLeonardo/` al panel de Netlify (drag & drop)
+4. O conectar directamente el repositorio desde GitHub y configurar:
+
+   * **Build command:** `npm run build`
+   * **Publish directory:** `dist/RIU-Frontend-Almiron-Leonardo/browser`
+5. Agregar archivo `_redirects` en la carpeta `src/` con el siguiente contenido:
+
+```
+/*    /index.html   200
+```
+
+Esto permite que la app Angular funcione como SPA (Single Page App) en producción.
 
 ---
 
