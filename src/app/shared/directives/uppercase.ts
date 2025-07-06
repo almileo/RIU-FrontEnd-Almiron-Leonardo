@@ -1,4 +1,4 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
@@ -6,7 +6,10 @@ import { NgControl } from '@angular/forms';
   standalone: true
 })
 export class UppercaseDirective {
-  constructor(private control: NgControl) { }
+  constructor(
+    private el: ElementRef<HTMLInputElement>,
+    private control: NgControl
+  ) { }
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {

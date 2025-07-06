@@ -10,5 +10,5 @@ import { LoadingComponent } from './core/components/loading/loading';
   styleUrl: './app.scss'
 })
 export class App {
-  protected title = 'RIU-Frontend-Almiron-Leonardo';
+  public title = 'RIU-Frontend-Almiron-Leonardo';
 }

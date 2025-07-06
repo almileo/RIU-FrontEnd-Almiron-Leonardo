@@ -4,11 +4,13 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { LoadingInterceptor } from './core/interceptors/loading';
 
+const ZONELESS_ENABLED = true; // SET FALSE para usar Zone.js en tests
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
+    ...(ZONELESS_ENABLED ? [provideZonelessChangeDetection()] : []),
     provideRouter(routes),
     {
       provide: HTTP_INTERCEPTORS,
