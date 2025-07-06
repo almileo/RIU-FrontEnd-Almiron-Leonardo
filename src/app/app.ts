@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LoadingComponent } from './core/components/loading/loading';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, LoadingComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

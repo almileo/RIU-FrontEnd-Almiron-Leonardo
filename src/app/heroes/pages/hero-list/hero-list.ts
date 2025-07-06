@@ -1,89 +1,90 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import {
+  Component,
+  computed,
+  signal,
+  inject
+} from '@angular/core';
 import { HeroService } from '../../services/hero';
 import { Router } from '@angular/router';
-import { Hero } from '../../models/hero.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-hero-list',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     MatTableModule,
-    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule
   ],
   templateUrl: './hero-list.html',
-  styleUrl: './hero-list.scss'
+  styleUrls: ['./hero-list.scss'],
 })
 export class HeroListComponent {
-  private heroService = inject(HeroService);
   private router = inject(Router);
+  public heroService = inject(HeroService);
 
-  heroes: Hero[] = [];
-  filteredHeroes: Hero[] = [];
-  pagedHeroes: Hero[] = [];
+  searchTerm = this.heroService.searchTerm;
+
+  heroes = this.heroService.filteredHeroes;
+  allHeroes = this.heroService.filteredHeroes;
+
+  pageIndex = signal(0);
+  pageSize = signal(5);
+
+  totalPages = computed(() =>
+    Math.ceil(this.allHeroes().length / this.pageSize())
+  );
+
+  pagedHeroes = computed(() => {
+    const start = this.pageIndex() * this.pageSize();
+    const end = start + this.pageSize();
+    return this.heroService.filteredHeroes().slice(start, end);
+  });
+
+  nextPage = () => {
+    if (this.pageIndex() < this.totalPages() - 1) {
+      this.pageIndex.set(this.pageIndex() + 1);
+    }
+  };
+
+  prevPage = () => {
+    if (this.pageIndex() > 0) {
+      this.pageIndex.set(this.pageIndex() - 1);
+    }
+  };
 
   displayedColumns = ['name', 'description', 'actions'];
-  searchTerm = '';
-
-  pageIndex = 0;
-  pageSize = 5;
-
-  ngOnInit(): void {
-    this.heroService.getAll().subscribe(data => {
-      this.heroes = data;
-      this.applyFilter();
-    });
-  }
-
-  onSearch(): void {
-    this.applyFilter();
-  }
 
   onEdit(id: number): void {
     this.router.navigate(['/heroes/edit', id]);
   }
 
   onDelete(id: number): void {
-    if (confirm('¿Eliminar héroe?')) {
+    if (confirm('¿Seguro que querés borrar este héroe?')) {
       this.heroService.delete(id);
     }
   }
 
-  onPageChange(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.updatePagedHeroes();
-  }
-
-  addHero(): void {
+  onAdd(): void {
     this.router.navigate(['/heroes/add']);
   }
-  
-  private applyFilter(): void {
-    this.filteredHeroes = this.searchTerm
-      ? this.heroes.filter(h =>
-          h.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
-      : [...this.heroes];
 
-    this.pageIndex = 0;
-    this.updatePagedHeroes();
-  }
-
-  private updatePagedHeroes(): void {
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-    this.pagedHeroes = this.filteredHeroes.slice(start, end);
+  onPageChange(event: PageEvent): void {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
   }
 }
