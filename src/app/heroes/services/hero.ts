@@ -47,7 +47,7 @@ export class HeroService {
     this.loadingService.show();
     of(true).pipe(delay(1000)).subscribe(() => {
       this._heroes.update(prev =>
-        prev.map(h => (h.id === hero.id ? { ...h } : h))
+        prev.map(h => (h.id === hero.id ? { ...h, ...hero } : h))
       );
       this.loadingService.hide();
     });

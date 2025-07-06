@@ -10,7 +10,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    ...(ZONELESS_ENABLED ? [provideZonelessChangeDetection()] : []),
+    provideZonelessChangeDetection(),
     provideRouter(routes),
     {
       provide: HTTP_INTERCEPTORS,
