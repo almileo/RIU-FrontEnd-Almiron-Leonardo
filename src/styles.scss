@@ -1,4 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f2f2f2;
+  color: #1e1e1e;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.warn-icon {
+  color: #e53935;
+}
+
+.accent-icon {
+  color: #fb8c00;
+}
+
+.primary-icon {
+  color: #1976d2;
+}

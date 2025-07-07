@@ -1,8 +1,10 @@
-<mat-card>
-  <h2>{{ editMode() ? 'Editar Héroe' : 'Agregar Héroe' }}</h2>
+<mat-card class="hero-form-card">
+  <h2 class="form-title">
+    {{ editMode() ? "Editar Héroe" : "Agregar Héroe" }}
+  </h2>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="hero-form">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="form-field">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="name" required appUppercase />
       <mat-error *ngIf="form.get('name')?.hasError('required')">
@@ -10,14 +12,19 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="form-field">
       <mat-label>Descripción</mat-label>
       <textarea matInput formControlName="description" rows="4"></textarea>
     </mat-form-field>
 
-    <div class="actions">
-      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
-        {{ editMode() ? 'Guardar cambios' : 'Agregar héroe' }}
+    <div class="form-actions">
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        {{ editMode() ? "Guardar cambios" : "Agregar héroe" }}
       </button>
       <button mat-button type="button" (click)="onCancel()">Cancelar</button>
     </div>
