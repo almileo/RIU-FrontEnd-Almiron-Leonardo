@@ -11,7 +11,7 @@ describe('HeroService (con Zone.js)', () => {
         HeroService,
         {
           provide: LoadingService,
-          useValue: { show: () => {}, hide: () => {} }
+          useValue: { show: () => { }, hide: () => { } }
         }
       ]
     });
@@ -55,5 +55,29 @@ describe('HeroService (con Zone.js)', () => {
       expect(service.heroes().length).toBe(initialCount - 1);
       done();
     }, 2000);
+  });
+
+  it('should update an existing hero', (done) => {
+    const updatedHero = { id: 2, name: 'Spiderman actualizado', description: 'Red mejorada' };
+    service.update(updatedHero);
+
+    setTimeout(() => {
+      const result = service.getById(2);
+      expect(result?.name).toBe('Spiderman actualizado');
+      done();
+    }, 1100);
+  });
+
+  it('should assign id = 1 if heroes list is empty', (done) => {
+    (service as any)._heroes.set([]);
+
+    service.add({ id: 0, name: 'Nuevo', description: 'Test' });
+
+    setTimeout(() => {
+      const newHero = service.getById(1);
+      expect(newHero).toBeTruthy();
+      expect(newHero?.id).toBe(1);
+      done();
+    }, 1100);
   });
 });

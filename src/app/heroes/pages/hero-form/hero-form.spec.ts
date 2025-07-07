@@ -26,7 +26,7 @@ describe('HeroFormComponent (create mode)', () => {
         { provide: MatSnackBar, useValue: snackBarMock },
         {
           provide: LoadingService,
-          useValue: { show: () => {}, hide: () => {} }
+          useValue: { show: () => { }, hide: () => { } }
         },
         {
           provide: ActivatedRoute,
@@ -59,6 +59,11 @@ describe('HeroFormComponent (create mode)', () => {
     expect(control?.valid).toBeTrue();
   });
 
+  it('should navigate to /heroes when cancel is clicked', () => {
+    component.onCancel();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/heroes']);
+  });
+
   it('should call add() and navigate when submitting a valid new hero', fakeAsync(() => {
     component.form.setValue({ name: 'Flash', description: 'Velocidad' });
 
@@ -83,6 +88,44 @@ describe('HeroFormComponent (create mode)', () => {
   });
 });
 
+describe('HeroFormComponent (id inválido)', () => {
+  let fixture: ComponentFixture<HeroFormComponent>;
+  let routerMock: jasmine.SpyObj<Router>;
+
+  beforeEach(() => {
+    const heroServiceMock = jasmine.createSpyObj('HeroService', ['getById']);
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
+
+    TestBed.configureTestingModule({
+      imports: [HeroFormComponent],
+      providers: [
+        { provide: HeroService, useValue: heroServiceMock },
+        { provide: Router, useValue: routerMock },
+        { provide: MatSnackBar, useValue: { open: () => { } } },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: () => '999'
+              }
+            }
+          }
+        }
+      ]
+    });
+
+    heroServiceMock.getById.and.returnValue(undefined);
+
+    fixture = TestBed.createComponent(HeroFormComponent);
+    fixture.detectChanges();
+  });
+
+  it('should redirect to /heroes if hero not found', () => {
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/heroes']);
+  });
+});
+
 describe('HeroFormComponent (edit mode)', () => {
   let fixture: ComponentFixture<HeroFormComponent>;
   let component: HeroFormComponent;
@@ -103,7 +146,7 @@ describe('HeroFormComponent (edit mode)', () => {
         { provide: MatSnackBar, useValue: snackBarMock },
         {
           provide: LoadingService,
-          useValue: { show: () => {}, hide: () => {} }
+          useValue: { show: () => { }, hide: () => { } }
         },
         {
           provide: ActivatedRoute,
